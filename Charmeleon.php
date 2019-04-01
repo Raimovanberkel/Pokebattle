@@ -1,8 +1,8 @@
 <?php
-	class Charmeleon extends Pokemon{	
+	class Charmeleon extends Pokemon {	
+		
 		public function __construct($name)
 		{
-			$name = $name;
 			$energyType = new EnergyType('Fire');
 			$hitpoints = 60;
 			$attacks = [new Attack('headButt', 10), new Attack('Flare', 30)];
