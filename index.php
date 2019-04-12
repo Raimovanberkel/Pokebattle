@@ -4,7 +4,7 @@ require 'Pikachu.php';
 require 'Charmeleon.php';
 
 	$pikachu = new Pikachu('Pieter');
-	$charmeleon = new Charmeleon('achmet');
-	
+	$charmeleon = new Charmeleon('Achmet'); 
+
 	$pikachu->attack($pikachu->attacks[0], $charmeleon);
 	$charmeleon->attack($charmeleon->attacks[1], $pikachu);

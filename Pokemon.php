@@ -3,48 +3,46 @@
 	require 'Attack.php';
 	require 'EnergyType.php';
 	require 'Resistance.php';
-	class Pokemon {
+
+	abstract class Pokemon { //so u can't say: $varname = new Pokemon();
 
 		private $name;
-		private $energyType;
-		private $hitpoints;
-		private $health;
-		private $weakness;
-		private $resistance;	
-		public $attacks;
-
+		protected $energyType;
+		protected $hitpoints;
+		protected $health;
+		protected $weakness;
+		protected $resistance;	
 		
-			public function __construct($name, $energyType, $hitpoints, $attacks, $weakness, $resistance)
+			public function __construct($name)
 			{
 				$this->name = $name;
-				$this->energyType = $energyType;
-				$this->hitpoints = $hitpoints;
-				$this->health = $hitpoints;
-				$this->attacks = $attacks;
-				$this->weakness = $weakness;
-				$this->resistance = $resistance;
 			}
+
 			public function attack($attack, $target)
 			{
-				$damage = $attack->damage;
+				if (isset($attack)==false | isset($target)==false) {
+					throw new Exception('Function attack cannot be invoked without $attack and $target arguments.');
+					return false;
+				}
+
+				$damage = $attack->GetDamage();
 				if (isset($target)) {
-					$result = $target->health;
+					$result = $this->hitpoints;
 					print_r ('<h2>' . 'Player1 chooses ' . $target->name . '. ' . $target->name . ' has ' . $result . 'HP.' . '</h2>');
 				}
-				if ($target->weakness->energyType == $this->energyType) {
-					$damage = $attack->damage * $target->weakness->multiplier;
-				}elseif ($target->resistance->energyType == $this->energyType) {
-					$damage = $attack->damage - $target->resistance->worth;
+				if ($target->weakness->GetEnergytype() == $target->resistance->GetEnergytype()) {
+					$damage = $attack->GetDamage() * $target->weakness->GetMultiplier();
+
+				}elseif ($target->resistance->GetEnergytype() == $this->energyType) {
+					$damage = $attack->GetDamage() - $target->resistance->GetWorth();
 				}
 				if (isset($damage)) {
-					$this->recieveDamage($attack, $target);
+					$this->recieveDamage($attack, $target, $damage);
 				}
 			}
 
-			private function recieveDamage($attack, $target)
+			private function recieveDamage($attack, $target, $damage)
 			{
-				$damage = $attack->damage;
-				$result = $target->health - $damage;
-				print_r ('<h2>' . 'After a attack by ' . $this->name . '\'s ' . $attack->name . '. ' . $target->name  . '\'s health is ' . $result . ' points.' . '</h2>');
+				print_r ('<h2>' . 'After a attack by ' . $this->name . '\'s ' . $attack->GetAttackName() . '. ' . $target->name  . '\'s health is ' . $damage . ' points.' . '</h2>');
 			}		
 	}
