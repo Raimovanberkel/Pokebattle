@@ -7,5 +7,4 @@
 		{
 			$this->name = $name;
 		}
-
 	}

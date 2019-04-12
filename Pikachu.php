@@ -10,5 +10,4 @@
 			$this->resistance = new Resistance(new EnergyType('Fighting'), 20);
 			parent::__construct($name);
 		}
-
 	}
